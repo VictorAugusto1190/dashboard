@@ -124,9 +124,48 @@
         type: 'bar',
         data: {
           labels: metricas.map(m => m.nome),
-          datasets: [{ label: 'Gastos', data: metricas.map(m => m.valor), backgroundColor: '#007bff' }]
+          datasets: [{
+            label: 'Gastos',
+            data: metricas.map(m => m.valor),
+            backgroundColor: 'rgba(105, 165, 255, 0.72)',
+            hoverBackgroundColor: 'rgba(98, 229, 223, 0.88)',
+            borderColor: 'rgba(126, 190, 255, 0.95)',
+            borderWidth: 1,
+            borderRadius: 7,
+            borderSkipped: false,
+            maxBarThickness: 54
+          }]
         },
-        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: { duration: 850, easing: 'easeOutQuart' },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: 'rgba(10, 17, 34, 0.96)',
+              borderColor: 'rgba(112, 165, 255, 0.3)',
+              borderWidth: 1,
+              titleColor: '#edf2ff',
+              bodyColor: '#aebbd5',
+              padding: 11,
+              displayColors: false
+            }
+          },
+          scales: {
+            x: {
+              grid: { display: false },
+              border: { display: false },
+              ticks: { color: '#8997b4', font: { family: 'Manrope', size: 10 } }
+            },
+            y: {
+              beginAtZero: true,
+              border: { display: false },
+              grid: { color: 'rgba(141, 164, 220, 0.1)' },
+              ticks: { color: '#7886a3', font: { family: 'DM Mono', size: 9 }, padding: 8 }
+            }
+          }
+        }
       });
     }
 

@@ -3,56 +3,120 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#070b18" />
   <link rel="stylesheet" href="styleDashBoard.css">
-  <title>Dashboard / gastos pessoais</title>
-
+  <title>Dashboard | Controle financeiro</title>
 </head>
 <body>
-  <header>Dashboard Offline</header>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
 
-  <div class="form">
-    <h3>Carteira</h3>
-    <span>Valor atual: <span id="carteiraDisplay">R$ 0,00</span></span>
-    <button class="btn-editar" onclick="editarCarteira()">Editar Carteira</button>
-  </div>
+  <main class="dashboard">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Painel financeiro">
+        <span class="brand-mark" aria-hidden="true">◈</span>
+        <span>nexo<span class="brand-accent">.</span></span>
+      </a>
+      <div class="topbar-status"><span class="status-dot"></span> PAINEL OFFLINE</div>
+    </header>
 
-  <div class="form">
-    <h3>Adicionar Renda Extra</h3>
-    <input type="text" id="nomeRenda" placeholder="Nome da renda" />
-    <input type="number" id="valorRenda" placeholder="Valor da renda" />
-    <button onclick="adicionarRenda()">Adicionar Renda</button>
-  </div>
+    <section class="page-heading" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow">SEU ESPAÇO FINANCEIRO</p>
+        <h1 id="page-title">Visão geral<span class="heading-period">.</span></h1>
+        <p class="page-subtitle">Acompanhe seu dinheiro com clareza e controle.</p>
+      </div>
+      <div class="heading-decoration" aria-hidden="true"><span></span><span></span><span></span></div>
+    </section>
 
-  <div class="form">
-    <h3>Adicionar Métrica (Gasto)</h3>
-    <input type="text" id="nomeGasto" placeholder="Nome do gasto" />
-    <input type="number" id="valorGasto" placeholder="Valor do gasto" />
-    <button onclick="adicionarGasto()">Adicionar Gasto</button>
-  </div>
+    <section class="forms-grid" aria-label="Resumo e lançamentos">
+      <div class="form wallet-panel">
+        <div class="panel-topline">
+          <span class="panel-icon wallet-icon" aria-hidden="true">◉</span>
+          <span class="panel-label">SALDO DISPONÍVEL</span>
+          <span class="live-indicator" aria-label="Atualizado em tempo real"></span>
+        </div>
+        <h2>Carteira</h2>
+        <div class="wallet-value" id="carteiraDisplay">R$ 0,00</div>
+        <div class="wallet-footer">
+          <span>Seu saldo atualizado</span>
+          <button class="btn-editar" onclick="editarCarteira()">Editar carteira <span aria-hidden="true">↗</span></button>
+        </div>
+        <div class="wallet-orbit" aria-hidden="true"></div>
+      </div>
 
-  <div class="container">
-    <div class="card">
-      <h3>Rendas Extras</h3>
-      <ul id="listaRendas"></ul>
-    </div>
-    <div class="card">
-      <h3>Métricas (Gastos)</h3>
-      <ul id="listaMetricas"></ul>
-    </div>
-    <div class="card">
-      <h3>Gráfico dos Gastos</h3>
-      <canvas id="grafico"></canvas>
-    </div>
-  </div>
+      <div class="form form-panel">
+        <div class="panel-topline">
+          <span class="panel-icon income-icon" aria-hidden="true">↗</span>
+          <span class="panel-label">ENTRADA</span>
+        </div>
+        <h2>Adicionar renda</h2>
+        <p class="form-description">Registre uma renda extra na sua carteira.</p>
+        <form class="entry-form" onsubmit="event.preventDefault(); adicionarRenda();">
+          <label class="sr-only" for="nomeRenda">Nome da renda</label>
+          <input type="text" id="nomeRenda" placeholder="Ex.: Freelance" autocomplete="off" />
+          <label class="sr-only" for="valorRenda">Valor da renda em reais</label>
+          <div class="input-with-prefix"><span>R$</span><input type="number" id="valorRenda" placeholder="0,00" min="0" step="0.01" /></div>
+          <button class="action-button income-button" type="submit">Adicionar renda <span aria-hidden="true">＋</span></button>
+        </form>
+      </div>
 
-  <!-- ADIÇÃO: Nova seção de gastos pendentes -->
-  <div class="form" id="gastosPendentesContainer">
-    <h3>Gastos Pendentes</h3>
-    <ul id="listaGastosPendentes"></ul>
-  </div>
+      <div class="form form-panel">
+        <div class="panel-topline">
+          <span class="panel-icon expense-icon" aria-hidden="true">↘</span>
+          <span class="panel-label">SAÍDA</span>
+        </div>
+        <h2>Adicionar gasto</h2>
+        <p class="form-description">Mantenha seus gastos sempre organizados.</p>
+        <form class="entry-form" onsubmit="event.preventDefault(); adicionarGasto();">
+          <label class="sr-only" for="nomeGasto">Nome do gasto</label>
+          <input type="text" id="nomeGasto" placeholder="Ex.: Conta de luz" autocomplete="off" />
+          <label class="sr-only" for="valorGasto">Valor do gasto em reais</label>
+          <div class="input-with-prefix"><span>R$</span><input type="number" id="valorGasto" placeholder="0,00" min="0" step="0.01" /></div>
+          <button class="action-button expense-button" type="submit">Adicionar gasto <span aria-hidden="true">＋</span></button>
+        </form>
+      </div>
+    </section>
+
+    <section class="container" aria-label="Detalhes financeiros">
+      <div class="card list-card">
+        <div class="card-heading">
+          <div><p class="eyebrow">ACOMPANHAMENTO</p><h2>Rendas extras</h2></div>
+          <span class="card-icon income-icon" aria-hidden="true">↗</span>
+        </div>
+        <ul id="listaRendas" class="data-list"></ul>
+        <p class="empty-state">Suas rendas extras aparecerão aqui.</p>
+      </div>
+      <div class="card list-card">
+        <div class="card-heading">
+          <div><p class="eyebrow">ACOMPANHAMENTO</p><h2>Métricas de gastos</h2></div>
+          <span class="card-icon expense-icon" aria-hidden="true">↘</span>
+        </div>
+        <ul id="listaMetricas" class="data-list"></ul>
+        <p class="empty-state">Seus gastos aparecerão aqui.</p>
+      </div>
+      <div class="card chart-card">
+        <div class="card-heading">
+          <div><p class="eyebrow">ANÁLISE VISUAL</p><h2>Gráfico dos gastos</h2></div>
+          <span class="chart-period">VISÃO ATUAL</span>
+        </div>
+        <div class="chart-wrap"><canvas id="grafico" aria-label="Gráfico de gastos" role="img"></canvas></div>
+      </div>
+    </section>
+
+    <section class="form pending-panel" id="gastosPendentesContainer">
+      <div class="card-heading">
+        <div><p class="eyebrow">CHECKLIST</p><h2>Gastos pendentes</h2></div>
+        <span class="pending-badge">A FAZER</span>
+      </div>
+      <ul id="listaGastosPendentes" class="data-list pending-list"></ul>
+      <p class="empty-state">Nenhum gasto pendente por enquanto.</p>
+    </section>
+
+    <footer class="footer"><span class="footer-mark">◈</span> NEXO FINANCEIRO <span class="footer-divider">/</span> SEU CONTROLE, NO SEU TEMPO</footer>
+  </main>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="app.js" ></script>
+  <script src="app.js"></script>
 </body>
 </html>
-
